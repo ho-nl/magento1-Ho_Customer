@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ho_Customer>
+            <version>0.1.0</version>
+        </Ho_Customer>
+    </modules>
+    <global>
+        <blocks>
+            <ho_customer>
+                <class>Ho_Customer_Block</class>
+            </ho_customer>
+        </blocks>
+        <helpers>
+            <ho_customer>
+                <class>Ho_Customer_Helper</class>
+            </ho_customer>
+        </helpers>
+        <models>
+            <ho_customer>
+                <class>Ho_Customer_Model</class>
+            </ho_customer>
+        </models>
+        <translate>
+            <modules>
+                <ho_customer>
+                    <files>
+                        <default>Ho_Customer.csv</default>
+                    </files>
+                </ho_customer>
+            </modules>
+        </translate>
+    </global>
+</config>

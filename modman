@@ -1,0 +1,4 @@
+# Ho_Customer
+app/code/local/Ho/Customer                          app/code/local/Ho/Customer/
+app/locale/nl_NL/*                                  app/locale/nl_NL/
+app/etc/modules/*                                   app/etc/modules/
