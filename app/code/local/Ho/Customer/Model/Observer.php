@@ -149,6 +149,7 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
 
         // Save password (automatically created accounts have no password)
         $customer->setPassword($request->getParam('password'));
+        $customer->save();
 
         // Send account confirmation email
         $customer->sendNewAccountEmail('confirmation');
