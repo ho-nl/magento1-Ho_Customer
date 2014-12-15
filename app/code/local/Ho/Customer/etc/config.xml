@@ -47,6 +47,14 @@
                     </ho_customer_change_email_exists_message>
                 </observers>
             </controller_action_predispatch_customer_account_createpost>
+            <customer_save_before>
+                <observers>
+                    <ho_customer_set_existing_customer>
+                        <class>Ho_Customer_Model_Observer</class>
+                        <method>registerUnconfirmedCustomerCheckout</method>
+                    </ho_customer_set_existing_customer>
+                </observers>
+            </customer_save_before>
         </events>
     </global>
 </config>

@@ -124,6 +124,7 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
      * - Redirect to login page.
      * These actions make it look like as if the customer just registered a new account.
      *
+     * @event controller_action_predispatch_customer_account_createpost
      * @param Varien_Event_Observer $observer
      */
     public function registerUnconfirmedCustomer($observer)
@@ -167,5 +168,40 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
             ->setRedirect($url)
             ->sendResponse();
         exit;
+    }
+
+    /**
+     * Set existing entity ID on customer model when registering in checkout
+     * with an email address that already exists (auto created customer).
+     * This way the account will be confirmed, an email will be send to the customer
+     * and the account is accessible on the frontend by the customer.
+     * The already placed orders for this email address will remain at the account.
+     *
+     * @event customer_save_before
+     * @param Varien_Event_Observer $observer
+     */
+    public function registerUnconfirmedCustomerCheckout($observer)
+    {
+        if (!$this->_getHelper()->autoCreateCustomers()) return;
+
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = $observer->getEvent()->getCustomer();
+
+        // Check if customer exists
+        /** @var Mage_Customer_Model_Customer $existingCustomer */
+        $existingCustomer = Mage::getModel('customer/customer')
+            ->getCollection()
+            ->addAttributeToSelect('confirmation')
+            ->addAttributeToFilter('email', $customer->getEmail())
+            ->getFirstItem();
+
+        // Customer doesn't exist
+        if (!$existingCustomer->getEntityId()) return;
+
+        // No confirmation key found, existing customer already confirmed
+        if (!$existingCustomer->getConfirmation()) return;
+
+        // Set entity ID when existing customer is not confirmed (auto created customer)
+        $customer->setEntityId($existingCustomer->getEntityId());
     }
 }
