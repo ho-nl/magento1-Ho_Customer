@@ -39,6 +39,14 @@
                     </ho_customer_auto_create_customer>
                 </observers>
             </sales_order_save_before>
+            <controller_action_predispatch_customer_account_createpost>
+                <observers>
+                    <ho_customer_change_email_exists_message>
+                        <class>Ho_Customer_Model_Observer</class>
+                        <method>registerUnconfirmedCustomer</method>
+                    </ho_customer_change_email_exists_message>
+                </observers>
+            </controller_action_predispatch_customer_account_createpost>
         </events>
     </global>
 </config>

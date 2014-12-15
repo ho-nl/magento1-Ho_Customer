@@ -114,4 +114,57 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
 
         return $customer;
     }
+
+    /**
+     * When a customer tries to register which has already an automatically created account,
+     * the following actions are performed:
+     * - Set entered password at customer account;
+     * - Send account confirmation email to customer;
+     * - Set success messages ('Account confirmation required');
+     * - Redirect to login page.
+     * These actions make it look like as if the customer just registered a new account.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function registerUnconfirmedCustomer($observer)
+    {
+        if (!$this->_getHelper()->autoCreateCustomers()) return;
+
+        $request = Mage::app()->getRequest();
+
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = Mage::getModel('customer/customer')
+            ->getCollection()
+            ->addAttributeToSelect('confirmation')
+            ->addAttributeToFilter('email', $request->getParam('email'))
+            ->getFirstItem();
+
+        // No customer found; no changes to registration flow
+        if (!$customer->getId()) return;
+
+        // Customer is already confirmed; no changes to registration flow
+        if (!$customer->getConfirmation()) return;
+
+        $session = Mage::getSingleton('customer/session');
+
+        // Save password (automatically created accounts have no password)
+        $customer->setPassword($request->getParam('password'));
+
+        // Send account confirmation email
+        $customer->sendNewAccountEmail('confirmation');
+
+        // Set confirmation required message, as if account was just created by the user
+        $session->addSuccess(Mage::helper('customer')->__('Thank you for registering with %s.', Mage::app()->getStore()->getFrontendName()));
+        $session->addSuccess(Mage::helper('customer')->__('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%s">click here</a>.',
+            Mage::helper('customer')->getEmailConfirmationUrl($request->getParam('email'))));
+
+        // Send customer to login page
+        // This skips Mage_Customer_AccountController::createPostAction
+        $url = Mage::getUrl('customer/account/login');
+
+        Mage::app()->getResponse()
+            ->setRedirect($url)
+            ->sendResponse();
+        exit;
+    }
 }
