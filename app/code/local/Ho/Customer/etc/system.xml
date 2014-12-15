@@ -21,6 +21,10 @@
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
+                    <comment><![CDATA[<div class="box" style="background:#fff;">
+                        <b style="color:#eb5e00;">Warning:</b> This option can only be enabled if <i>Require Emails Confirmation</i> is <b>disabled</b>.<br/>
+                        This option is found at: Customer Configuration > Create New Account Options.
+                    </div>]]></comment>
                     <fields>
                         <create_customers translate="label" module="ho_customer">
                             <label>Create Customers</label>
