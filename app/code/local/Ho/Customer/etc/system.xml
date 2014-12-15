@@ -36,7 +36,7 @@
                             <sort_order>10</sort_order>
                             <comment><![CDATA[
                                 Automatically creates customers from guest orders.<br />
-                                Also links future orders of same email address to auto created customer accounts.]]></comment>
+                                <b>Note:</b> This also links guest orders to customers if the email address matches with an account.]]></comment>
                         </create_customers>
                     </fields>
                 </automatic>
