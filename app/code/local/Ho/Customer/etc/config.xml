@@ -30,5 +30,15 @@
                 </ho_customer>
             </modules>
         </translate>
+        <events>
+            <sales_order_save_before>
+                <observers>
+                    <ho_customer_auto_create_customer>
+                        <class>Ho_Customer_Model_Observer</class>
+                        <method>autoCreateCustomer</method>
+                    </ho_customer_auto_create_customer>
+                </observers>
+            </sales_order_save_before>
+        </events>
     </global>
 </config>
