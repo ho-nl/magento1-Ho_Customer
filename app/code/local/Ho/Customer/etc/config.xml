@@ -57,4 +57,13 @@
             </customer_save_before>
         </events>
     </global>
+
+    <crontab>
+        <jobs>
+            <create_customers_from_orders>
+                <schedule><cron_expr>*/1 * * * *</cron_expr></schedule>
+                <run><model>ho_customer/observer::registerCustomers</model></run>
+            </create_customers_from_orders>
+        </jobs>
+    </crontab>
 </config>
