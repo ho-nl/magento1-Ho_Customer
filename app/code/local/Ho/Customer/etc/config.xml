@@ -61,7 +61,7 @@
     <crontab>
         <jobs>
             <ho_create_customers_from_orders>
-                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <schedule><cron_expr>*/1 * * * *</cron_expr></schedule>
                 <run><model>ho_customer/guestOrders::registerCustomers</model></run>
             </ho_create_customers_from_orders>
         </jobs>
