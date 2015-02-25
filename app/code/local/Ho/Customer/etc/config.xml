@@ -60,10 +60,12 @@
 
     <crontab>
         <jobs>
-            <ho_create_customers_from_orders>
-                <schedule><cron_expr>*/1 * * * *</cron_expr></schedule>
-                <run><model>ho_customer/guestOrders::registerCustomers</model></run>
-            </ho_create_customers_from_orders>
+            <!-- Enable this job to create customers for existing guest orders -->
+            <!-- and link existing orders to customers, based on email address -->
+            <!--<ho_create_customers_from_orders>-->
+                <!--<schedule><cron_expr>*/1 * * * *</cron_expr></schedule>-->
+                <!--<run><model>ho_customer/guestOrders::registerCustomers</model></run>-->
+            <!--</ho_create_customers_from_orders>-->
         </jobs>
     </crontab>
 </config>
