@@ -21,6 +21,14 @@
                 <class>Ho_Customer_Model</class>
             </ho_customer>
         </models>
+        <resources>
+            <ho_customer_setup>
+                <setup>
+                    <module>Ho_Customer</module>
+                    <class>Mage_Sales_Model_Resource_Setup</class>
+                </setup>
+            </ho_customer_setup>
+        </resources>
         <translate>
             <modules>
                 <ho_customer>
