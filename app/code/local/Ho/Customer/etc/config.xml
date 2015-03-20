@@ -84,6 +84,18 @@
         </template>
     </global>
 
+    <frontend>
+        <routers>
+            <ho_customer>
+                <use>standard</use>
+                <args>
+                    <module>Ho_Customer</module>
+                    <frontName>ho_customer</frontName>
+                </args>
+            </ho_customer>
+        </routers>
+    </frontend>
+
     <default>
         <ho_customer>
             <complete_profile>

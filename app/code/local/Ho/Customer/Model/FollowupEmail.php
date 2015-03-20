@@ -57,6 +57,14 @@ class Ho_Customer_Model_FollowupEmail extends Mage_Core_Model_Abstract
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
 
+        /** @var Mage_Core_Helper_Data $helper */
+        $helper = Mage::helper('core');
+
+        $loginUrl = Mage::getUrl('ho_customer/account/login', array(
+            'encryption'    => $helper->getEncryptor()->encrypt($order->getCustomerId()),
+            'forward_url'   => base64_encode(Mage::getUrl('ho_customer/account/completeProfile')),
+        ));
+
         /** @var Mage_Core_Model_Email_Template $emailTemplate */
         $emailTemplate = Mage::getModel('core/email_template');
         $emailTemplate
@@ -66,7 +74,10 @@ class Ho_Customer_Model_FollowupEmail extends Mage_Core_Model_Abstract
                 $this->getConfig()->getEmailSender($order->getStoreId()),
                 $order->getCustomerEmail(),
                 $order->getCustomerName(),
-                array('order' => $order)
+                array(
+                    'order'     => $order,
+                    'login_url' => $loginUrl,
+                )
             );
 
         $customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
