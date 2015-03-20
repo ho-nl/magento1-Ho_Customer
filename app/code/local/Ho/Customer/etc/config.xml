@@ -56,7 +56,27 @@
                 </observers>
             </customer_save_before>
         </events>
+
+        <template>
+            <email>
+                <ho_customer_complete_profile_email_template translate="label" module="ho_customer">
+                    <label>Complete Your Profile Email</label>
+                    <file>ho_customer/complete_your_profile.html</file>
+                    <type>html</type>
+                </ho_customer_complete_profile_email_template>
+            </email>
+        </template>
     </global>
+
+    <default>
+        <ho_customer>
+            <complete_profile>
+                <days_after>30</days_after>
+                <email_sender>general</email_sender>
+                <email_template>ho_customer_complete_profile_email_template</email_template>
+            </complete_profile>
+        </ho_customer>
+    </default>
 
     <crontab>
         <jobs>
