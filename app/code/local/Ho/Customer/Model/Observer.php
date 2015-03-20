@@ -204,4 +204,21 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
         // Set entity ID when existing customer is not confirmed (auto created customer)
         $customer->setEntityId($existingCustomer->getEntityId());
     }
+
+    /**
+     * Set order_completed column to current date if order has just been completed.
+     *
+     * @event ho_customer_check_complete_order
+     * @param Varien_Event_Observer $observer
+     */
+    public function checkCompleteOrder($observer)
+    {
+        $order = $observer->getOrder();
+
+        if ($order->getStatus() == Mage_Sales_Model_Order::STATE_COMPLETE
+            && $order->getOrderCompleted() == '0000-00-00 00:00:00') {
+            $order->setOrderCompleted(date('Y-m-d H:i:s'));
+            $order->save();
+        }
+    }
 }

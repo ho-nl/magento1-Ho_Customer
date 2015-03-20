@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Ho_Customer>
-            <version>0.1.0</version>
+            <version>0.2.0</version>
         </Ho_Customer>
     </modules>
     <global>
@@ -63,6 +63,14 @@
                     </ho_customer_set_existing_customer>
                 </observers>
             </customer_save_before>
+            <sales_order_save_after>
+                <observers>
+                    <ho_customer_check_complete_order>
+                        <class>ho_customer/observer</class>
+                        <method>checkCompleteOrder</method>
+                    </ho_customer_check_complete_order>
+                </observers>
+            </sales_order_save_after>
         </events>
 
         <template>
