@@ -11,6 +11,8 @@ class Ho_Customer_Model_FollowupEmail extends Mage_Core_Model_Abstract
      */
     public function sendCompleteProfileEmails()
     {
+        if (!$this->getConfig()->isEmailEnabled()) return Mage::helper('ho_customer')->__('Functionality is disabled');
+
         $startDate = $this->getConfig()->getEmailStartDate();
         $timeSpan = date('Y-m-d H:i:s', strtotime('-' . $this->getConfig()->getEmailDaysAfter() . ' days'));
 
@@ -84,6 +86,28 @@ class Ho_Customer_Model_FollowupEmail extends Mage_Core_Model_Abstract
         $customer->setData('complete_profile_sent', true)->getResource()->saveAttribute($customer, 'complete_profile_sent');
 
         $translate->setTranslateInline(true);
+    }
+
+    /**
+     * Hand out promo discount code to currently logged in customer
+     */
+    public function distributeDiscount()
+    {
+        if (!$this->getConfig()->isDiscountEnabled()) return;
+
+        $salesRule = Mage::getModel('salesrule/rule')->load($this->getConfig()->getDiscountRuleId());
+
+        $coupon = $salesRule->acquireCoupon();
+        $coupon->setUsageLimit(1);
+        $coupon->setUsagePerCustomer(1);
+        $coupon->setIsPrimary(0);
+        $coupon->setType(1);
+        $coupon->setCode($salesRule->getCouponCodeGenerator()->generateCode());
+        $coupon->save();
+
+        Mage::getSingleton('customer/session')->addNotice(
+            Mage::helper('ho_customer')->__('Thank you for completing your profile. Your personal promo discount coupon code: <b>%s</b>', $coupon->getCode())
+        );
     }
 
     /**

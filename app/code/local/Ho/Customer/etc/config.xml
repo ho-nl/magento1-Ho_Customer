@@ -76,6 +76,14 @@
                     </ho_customer_check_complete_order>
                 </observers>
             </sales_order_save_after>
+            <controller_action_postdispatch_customer_account_editPost>
+                <observers>
+                    <ho_customer_distribute_discount>
+                        <class>ho_customer/observer</class>
+                        <method>checkDiscount</method>
+                    </ho_customer_distribute_discount>
+                </observers>
+            </controller_action_postdispatch_customer_account_editPost>
         </events>
 
         <template>

@@ -221,4 +221,20 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
             $order->save();
         }
     }
+
+    /**
+     * Check if customer should receive promo discount code
+     *
+     * @event controller_action_postdispatch_customer_account_editPost
+     * @param Varien_Event_Observer $observer
+     */
+    public function checkDiscount($observer)
+    {
+        $url = Mage::helper('core/http')->getHttpReferer();
+
+        if (strpos($url, 'completeProfile') !== false) {
+            $followUp = Mage::getModel('ho_customer/followupEmail');
+            $followUp->distributeDiscount();
+        }
+    }
 }
