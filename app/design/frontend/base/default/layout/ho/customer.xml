@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout>
+    <ho_customer_account_completeprofile>
+        <reference name="content">
+            <block type="ho_customer/completeProfile" name="ho_customer_complete_profile" template="ho/customer/complete_profile.phtml" />
+        </reference>
+    </ho_customer_account_completeprofile>
+</layout>

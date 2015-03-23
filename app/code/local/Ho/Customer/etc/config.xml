@@ -94,6 +94,13 @@
                 </args>
             </ho_customer>
         </routers>
+        <layout>
+            <updates>
+                <ho_customer module="ho_customer">
+                    <file>ho/customer.xml</file>
+                </ho_customer>
+            </updates>
+        </layout>
     </frontend>
 
     <default>
