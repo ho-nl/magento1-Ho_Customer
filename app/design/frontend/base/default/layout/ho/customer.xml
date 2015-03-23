@@ -1,11 +1,16 @@
 <?xml version="1.0"?>
 <layout>
     <ho_customer_account_completeprofile translate="label">
+        <label>Customer Complete Your Profile</label>
         <reference name="content">
             <block type="ho_customer/completeProfile" name="ho_customer_complete_profile" template="ho/customer/complete_profile.phtml">
                 <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode"><code>ho_customer_complete_profile</code></action>
                 </block>
+                <action method="setFormCssClass"><css_class>form-horizontal</css_class></action>
+                <action method="setLabelCssClass"><css_class>col-xs-12 col-sm-4 col-md-3</css_class></action>
+                <action method="setValueCssClass"><css_class>col-xs-12 col-sm-8 col-lg-7</css_class></action>
+                <action method="setValueOffsetCssClass"><css_class>col-sm-offset-4 col-md-offset-3</css_class></action>
             </block>
         </reference>
         <update handle="customer_form_template_handle"/>
