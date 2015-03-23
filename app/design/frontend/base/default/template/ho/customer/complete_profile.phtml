@@ -1,1 +1,13 @@
-<p>complete profile template</p>
+<?php
+/**
+ * @var Ho_Customer_Block_CompleteProfile $this
+ */
+?>
+<div class="page-header">
+    <h1><?php echo $this->__('Complete Your Profile') ?></h1>
+</div>
+
+<?php $userDefinedAttributes = $this->getLayout()->getBlock('customer_form_user_attributes'); ?>
+<?php if ($userDefinedAttributes):?>
+    <?php echo $userDefinedAttributes->setEntity(Mage::getSingleton('customer/session')->getCustomer())->toHtml(); ?>
+<?php endif;?>

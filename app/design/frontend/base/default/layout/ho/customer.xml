@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
 <layout>
-    <ho_customer_account_completeprofile>
+    <ho_customer_account_completeprofile translate="label">
         <reference name="content">
-            <block type="ho_customer/completeProfile" name="ho_customer_complete_profile" template="ho/customer/complete_profile.phtml" />
+            <block type="ho_customer/completeProfile" name="ho_customer_complete_profile" template="ho/customer/complete_profile.phtml">
+                <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_user_attributes">
+                    <action method="setFormCode"><code>ho_customer_complete_profile</code></action>
+                </block>
+            </block>
         </reference>
+        <update handle="customer_form_template_handle"/>
     </ho_customer_account_completeprofile>
 </layout>

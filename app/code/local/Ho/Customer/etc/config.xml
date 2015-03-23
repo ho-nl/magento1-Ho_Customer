@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Ho_Customer>
-            <version>0.2.0</version>
+            <version>0.3.0</version>
         </Ho_Customer>
     </modules>
     <global>
@@ -15,6 +15,11 @@
             <ho_customer>
                 <class>Ho_Customer_Helper</class>
             </ho_customer>
+            <enterprise_customer>
+                <rewrite>
+                    <customer>Ho_Customer_Helper_Customer_Customer</customer>
+                </rewrite>
+            </enterprise_customer>
         </helpers>
         <models>
             <ho_customer>
