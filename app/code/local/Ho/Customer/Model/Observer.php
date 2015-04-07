@@ -86,6 +86,7 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
                 ->setCustomerId($customer->getEntityId())
                 ->setIsActive(true)
                 ->setFirstname($orderAddress->getFirstname())
+                ->setMiddlename($orderAddress->getMiddlename())
                 ->setLastname($orderAddress->getLastname())
                 ->setStreet($orderAddress->getStreet())
                 ->setCity($orderAddress->getCity())
