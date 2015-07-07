@@ -10,6 +10,11 @@
             <ho_customer>
                 <class>Ho_Customer_Block</class>
             </ho_customer>
+            <adminhtml>
+                <rewrite>
+                    <customer_edit>Ho_Customer_Block_Adminhtml_Customer_Edit</customer_edit>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <helpers>
             <ho_customer>
