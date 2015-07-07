@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Ho_Customer>
-            <version>0.1.0</version>
+            <version>0.3.0</version>
         </Ho_Customer>
     </modules>
     <global>
@@ -20,12 +20,25 @@
             <ho_customer>
                 <class>Ho_Customer_Helper</class>
             </ho_customer>
+            <enterprise_customer>
+                <rewrite>
+                    <customer>Ho_Customer_Helper_Customer_Customer</customer>
+                </rewrite>
+            </enterprise_customer>
         </helpers>
         <models>
             <ho_customer>
                 <class>Ho_Customer_Model</class>
             </ho_customer>
         </models>
+        <resources>
+            <ho_customer_setup>
+                <setup>
+                    <module>Ho_Customer</module>
+                    <class>Mage_Sales_Model_Resource_Setup</class>
+                </setup>
+            </ho_customer_setup>
+        </resources>
         <translate>
             <modules>
                 <ho_customer>
@@ -60,8 +73,63 @@
                     </ho_customer_set_existing_customer>
                 </observers>
             </customer_save_before>
+            <sales_order_save_after>
+                <observers>
+                    <ho_customer_check_complete_order>
+                        <class>ho_customer/observer</class>
+                        <method>checkCompleteOrder</method>
+                    </ho_customer_check_complete_order>
+                </observers>
+            </sales_order_save_after>
+            <controller_action_postdispatch_customer_account_editPost>
+                <observers>
+                    <ho_customer_distribute_discount>
+                        <class>ho_customer/observer</class>
+                        <method>checkDiscount</method>
+                    </ho_customer_distribute_discount>
+                </observers>
+            </controller_action_postdispatch_customer_account_editPost>
         </events>
+
+        <template>
+            <email>
+                <ho_customer_complete_profile_email_template translate="label" module="ho_customer">
+                    <label>Complete Your Profile Email</label>
+                    <file>ho_customer/complete_your_profile.html</file>
+                    <type>html</type>
+                </ho_customer_complete_profile_email_template>
+            </email>
+        </template>
     </global>
+
+    <frontend>
+        <routers>
+            <ho_customer>
+                <use>standard</use>
+                <args>
+                    <module>Ho_Customer</module>
+                    <frontName>ho_customer</frontName>
+                </args>
+            </ho_customer>
+        </routers>
+        <layout>
+            <updates>
+                <ho_customer module="ho_customer">
+                    <file>ho/customer.xml</file>
+                </ho_customer>
+            </updates>
+        </layout>
+    </frontend>
+
+    <default>
+        <ho_customer>
+            <complete_profile>
+                <days_after>30</days_after>
+                <email_sender>general</email_sender>
+                <email_template>ho_customer_complete_profile_email_template</email_template>
+            </complete_profile>
+        </ho_customer>
+    </default>
 
     <crontab>
         <jobs>
@@ -71,6 +139,10 @@
                 <schedule><config_path>ho_customer/automatic/cron_action</config_path></schedule>
                 <run><model>ho_customer/guestOrders::registerCustomers</model></run>
             </ho_customer_create_customers_from_orders>
+            <ho_customer_send_profile_follow_up_emails>
+                <schedule><cron_expr>0 5 * * *</cron_expr></schedule>
+                <run><model>ho_customer/followupEmail::sendCompleteProfileFollowUpEmails</model></run>
+            </ho_customer_send_profile_follow_up_emails>
         </jobs>
     </crontab>
 </config>

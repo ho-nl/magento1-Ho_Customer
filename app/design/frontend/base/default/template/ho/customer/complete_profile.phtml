@@ -1,0 +1,59 @@
+<?php
+/**
+ * @var Ho_Customer_Block_CompleteProfile $this
+ */
+
+$_labelCssClass = $this->getLabelCssClass();
+$_valueCssClass = $this->getValueCssClass();
+$_valueOffsetCssClass = $this->getValueOffsetCssClass();
+
+$config = Mage::helper('ho_customer/config');
+?>
+<div class="page-header">
+    <h1><?php echo $this->__('Complete Your Profile') ?></h1>
+</div>
+
+<?php if ($config->isDiscountEnabled()): ?>
+    <div class="content"><?=$this->__('By completing your profile, you will receive a discount coupon you can redeem at your next order.');?></div>
+<?php endif; ?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form class="<?php echo $this->getFormCssClass(); ?>" action="<?php echo $this->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <fieldset>
+        <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+        <?php if ($_dob->isEnabled()): ?>
+            <?php echo $_dob->setDate($this->getCustomer()->getDob())
+                ->setLabelCssClass($_labelCssClass)
+                ->setValueCssClass($_valueCssClass)
+                ->setValueOffsetCssClass($_valueOffsetCssClass)
+                ->toHtml() ?>
+        <?php endif ?>
+        <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+        <?php if ($_taxvat->isEnabled()): ?>
+            <?php echo $_taxvat->setTaxvat($this->getCustomer()->getTaxvat())
+                ->setLabelCssClass($_labelCssClass)
+                ->setValueCssClass($_valueCssClass)
+                ->setValueOffsetCssClass($_valueOffsetCssClass)
+                ->toHtml() ?>
+        <?php endif ?>
+        <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+        <?php if ($_gender->isEnabled()): ?>
+            <?php echo $_gender->setGender($this->getCustomer()->getGender())
+                ->setLabelCssClass($_labelCssClass)
+                ->setValueCssClass($_valueCssClass)
+                ->setValueOffsetCssClass($_valueOffsetCssClass)
+                ->toHtml() ?>
+        <?php endif ?>
+
+        <?php $userDefinedAttributes = $this->getLayout()->getBlock('customer_form_user_attributes'); ?>
+        <?php if ($userDefinedAttributes):?>
+            <?php echo $userDefinedAttributes->setEntity($this->getCustomer())->toHtml(); ?>
+        <?php endif;?>
+    </fieldset>
+
+    <div class="buttons-set">
+        <p class="required pull-left"><i class="icon-asterisk"></i> <?php echo $this->__('Required Fields') ?></p>
+        <button type="submit" title="<?php echo $this->__('Save') ?>" class="btn btn-primary pull-right"><span><span><?php echo $this->__('Save') ?></span></span></button>
+    </div>
+</form>

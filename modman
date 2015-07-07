@@ -1,4 +1,7 @@
 # Ho_Customer
 app/code/local/Ho/Customer                          app/code/local/Ho/Customer/
-app/locale/nl_NL/*                                  app/locale/nl_NL/
+app/design/frontend/base/default/layout/ho/*        app/design/frontend/base/default/layout/ho/
+app/design/frontend/base/default/template/ho/*      app/design/frontend/base/default/template/ho/
+app/locale/en_US/template/email/ho_customer         app/locale/en_US/template/email/ho_customer
+app/locale/nl_NL/Ho_Customer.csv                    app/locale/nl_NL/
 app/etc/modules/*                                   app/etc/modules/
