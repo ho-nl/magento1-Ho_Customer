@@ -34,10 +34,18 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <sort_order>10</sort_order>
-                            <comment><![CDATA[
-                                Automatically creates customers from guest orders.<br />
+                            <comment><![CDATA[Automatically creates customers from guest orders.<br />
                                 <b>Note:</b> This also links guest orders to customers if the email address matches with an account.]]></comment>
                         </create_customers>
+                        <cron_action translate="label comment" module="ho_euromail">
+                            <label>Convert orders to customers</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment><![CDATA[Set to: <code>*/1 * * * *</code> to enable the conversion of existing orders to customers,
+                            this will schedule a cron and may take a while depending on the amount of orders.]]></comment>
+                            <depends><create_customers>1</create_customers></depends>
+                        </cron_action>
                     </fields>
                 </automatic>
             </groups>
