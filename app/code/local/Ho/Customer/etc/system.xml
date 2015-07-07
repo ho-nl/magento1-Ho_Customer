@@ -73,6 +73,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>20</sort_order>
                             <comment><![CDATA[yyyy-mm-dd. Fill this field so that old orders don't receive emails by this feature.]]></comment>
+                            <depends><enabled>1</enabled></depends>
                         </start_date>
                         <days_after translate="label">
                             <label>Days after</label>
@@ -82,6 +83,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>30</sort_order>
                             <comment><![CDATA[Number of days after a completed order. Default: 30]]></comment>
+                            <depends><enabled>1</enabled></depends>
                         </days_after>
                         <email_sender>
                             <label>Email sender</label>
@@ -91,6 +93,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <sort_order>40</sort_order>
+                            <depends><enabled>1</enabled></depends>
                         </email_sender>
                         <email_template>
                             <label>Email template</label>
@@ -100,6 +103,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <sort_order>50</sort_order>
+                            <depends><enabled>1</enabled></depends>
                         </email_template>
                         <discount_enabled translate="label">
                             <label>Discount enabled</label>
@@ -110,6 +114,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>100</sort_order>
                             <comment><![CDATA[Hand out promo discount code after profile is completed by customer.]]></comment>
+                            <depends><enabled>1</enabled></depends>
                         </discount_enabled>
                         <discount_rule_id translate="label">
                             <label>Promo Rule</label>
@@ -120,6 +125,7 @@
                             <show_in_store>1</show_in_store>
                             <sort_order>110</sort_order>
                             <comment><![CDATA[The shopping cart price rule at which a new coupon code will be generated.]]></comment>
+                            <depends><discount_enabled>1</discount_enabled></depends>
                         </discount_rule_id>
                     </fields>
                 </complete_profile>
