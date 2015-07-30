@@ -57,10 +57,14 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
         }
 
         // Check if customer with email address exists
-        $existingCustomer = Mage::getModel('customer/customer')
-            ->getCollection()
-            ->addFieldToFilter('email', $order->getCustomerEmail())
-            ->getFirstItem();
+        $existingCustomer = Mage::getResourceModel('customer/customer_collection')
+            ->addFieldToFilter('email', $order->getCustomerEmail());
+
+        if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
+            $existingCustomer->addFieldToFilter('website_id', $order->getWebsiteId());
+        }
+
+        $existingCustomer = $existingCustomer->getFirstItem();
 
         if ($existingCustomer->getId()) {
             return $existingCustomer;
@@ -71,6 +75,7 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
         $customer = Mage::getModel('customer/customer')
             ->setEmail($order->getCustomerEmail())
             ->setStoreId($order->getStoreId())
+            ->setPrefix($order->getCustomerPrefix())
             ->setFirstname($order->getCustomerFirstname())
             ->setLastname($order->getCustomerLastname());
 
@@ -85,9 +90,11 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
                 ->setParentId($customer->getEntityId())
                 ->setCustomerId($customer->getEntityId())
                 ->setIsActive(true)
+                ->setPrefix($orderAddress->getPrefix())
                 ->setFirstname($orderAddress->getFirstname())
                 ->setMiddlename($orderAddress->getMiddlename())
                 ->setLastname($orderAddress->getLastname())
+                ->setSuffix($orderAddress->getSuffix())
                 ->setStreet($orderAddress->getStreet())
                 ->setCity($orderAddress->getCity())
                 ->setPostcode($orderAddress->getPostcode())
