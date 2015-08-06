@@ -145,8 +145,13 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
         $customer = Mage::getModel('customer/customer')
             ->getCollection()
             ->addAttributeToSelect('confirmation')
-            ->addAttributeToFilter('email', $request->getParam('email'))
-            ->getFirstItem();
+            ->addAttributeToFilter('email', $request->getParam('email'));
+
+        if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
+            $customer->addFieldToFilter('website_id', Mage::app()->getWebsite()->getId());
+        }
+
+        $customer->getFirstItem();
 
         // No customer found; no changes to registration flow
         if (!$customer->getId()) return;
@@ -200,8 +205,14 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
         $existingCustomer = Mage::getModel('customer/customer')
             ->getCollection()
             ->addAttributeToSelect('confirmation')
-            ->addAttributeToFilter('email', $customer->getEmail())
-            ->getFirstItem();
+            ->addAttributeToFilter('email', $customer->getEmail());
+
+        if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
+            $existingCustomer->addFieldToFilter('website_id', Mage::app()->getWebsite()->getId());
+        }
+
+        $existingCustomer = $existingCustomer->getFirstItem();
+
 
         // Customer doesn't exist
         if (!$existingCustomer->getEntityId()) return;
