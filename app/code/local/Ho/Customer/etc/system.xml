@@ -37,7 +37,7 @@
                             <comment><![CDATA[Automatically creates customers from guest orders.<br />
                                 <b>Note:</b> This also links guest orders to customers if the email address matches with an account.]]></comment>
                         </create_customers>
-                        <cron_action translate="label comment" module="ho_euromail">
+                        <cron_action translate="label comment" module="ho_customer">
                             <label>Convert orders to customers</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>300</sort_order>
