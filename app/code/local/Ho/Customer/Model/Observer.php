@@ -154,7 +154,7 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
         $customer->getFirstItem();
 
         // No customer found; no changes to registration flow
-        if (!$customer->getId()) return;
+        if (!$customer instanceof Mage_Customer_Model_Customer || !$customer->getId()) return;
 
         // Customer is already confirmed; no changes to registration flow
         if (!$customer->getConfirmation()) return;
