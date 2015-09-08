@@ -66,8 +66,8 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
 
         $existingCustomer = $existingCustomer->getFirstItem();
 
-        if ($existingCustomer->getId()) {
-            return $existingCustomer;
+        if (!$existingCustomer instanceof Mage_Customer_Model_Customer || !$existingCustomer->getId()) {
+            return Mage::getModel('customer/customer');
         }
 
         // Create customer
@@ -154,10 +154,14 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
         $customer->getFirstItem();
 
         // No customer found; no changes to registration flow
-        if (!$customer instanceof Mage_Customer_Model_Customer || !$customer->getId()) return;
+        if (!$customer instanceof Mage_Customer_Model_Customer || !$customer->getId()) {
+            return;
+        }
 
         // Customer is already confirmed; no changes to registration flow
-        if (!$customer->getConfirmation()) return;
+        if (!$customer->getConfirmation()) {
+            return;
+        }
 
         $session = Mage::getSingleton('customer/session');
 
@@ -215,10 +219,14 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
 
 
         // Customer doesn't exist
-        if (!$existingCustomer->getEntityId()) return;
+        if (!$existingCustomer->getEntityId()) {
+            return;
+        }
 
         // No confirmation key found, existing customer already confirmed
-        if (!$existingCustomer->getConfirmation()) return;
+        if (!$existingCustomer->getConfirmation()) {
+            return;
+        }
 
         // Set entity ID when existing customer is not confirmed (auto created customer)
         $customer->setEntityId($existingCustomer->getEntityId());
