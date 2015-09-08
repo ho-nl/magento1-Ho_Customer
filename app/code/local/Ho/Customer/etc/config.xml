@@ -141,7 +141,7 @@
             </ho_customer_create_customers_from_orders>
             <ho_customer_send_profile_follow_up_emails>
                 <schedule><cron_expr>0 5 * * *</cron_expr></schedule>
-                <run><model>ho_customer/followupEmail::sendCompleteProfileFollowUpEmails</model></run>
+                <run><model>ho_customer/followupEmail::sendCompleteProfileEmails</model></run>
             </ho_customer_send_profile_follow_up_emails>
         </jobs>
     </crontab>
