@@ -61,13 +61,15 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
             ->addFieldToFilter('email', $order->getCustomerEmail());
 
         if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
-            $existingCustomer->addFieldToFilter('website_id', $order->getWebsiteId());
+            $storeId = $order->getStoreId();
+            $websiteId = Mage::getModel('core/store')->load($storeId)->getWebsiteId();
+            $existingCustomer->addFieldToFilter('website_id', $websiteId);
         }
 
         $existingCustomer = $existingCustomer->getFirstItem();
 
-        if (!$existingCustomer instanceof Mage_Customer_Model_Customer || !$existingCustomer->getId()) {
-            return Mage::getModel('customer/customer');
+        if ($existingCustomer instanceof Mage_Customer_Model_Customer && $existingCustomer->getId()) {
+            return $existingCustomer;
         }
 
         // Create customer
