@@ -129,6 +129,56 @@
                         </discount_rule_id>
                     </fields>
                 </complete_profile>
+                <newsletter_discount translate="label" module="ho_customer">
+                    <label>Checkout Newsletter Subscription Discount</label>
+                    <comment><![CDATA[Sent mail with discount coupon code to customer when subscribing to newsletter via the checkout]]></comment>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>30</sort_order>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>10</sort_order>
+                        </enabled>
+                        <price_rule translate="label">
+                            <label>Price Rule</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ho_customer/system_config_source_promoRules</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>20</sort_order>
+                            <depends><enabled>1</enabled></depends>
+                            <comment><![CDATA[The shopping cart price rule which is used to create a coupon code for]]></comment>
+                        </price_rule>
+                        <email_template>
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>30</sort_order>
+                            <depends><enabled>1</enabled></depends>
+                        </email_template>
+                        <email_sender>
+                            <label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>40</sort_order>
+                            <depends><enabled>1</enabled></depends>
+                        </email_sender>
+                    </fields>
+                </newsletter_discount>
             </groups>
         </ho_customer>
     </sections>
