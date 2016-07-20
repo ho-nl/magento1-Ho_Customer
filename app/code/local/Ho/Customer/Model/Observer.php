@@ -266,4 +266,28 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
             $followUp->distributeDiscount();
         }
     }
+
+    /**
+     * @event checkout_submit_all_after
+     * @param Varien_Event_Observer $observer
+     */
+    public function checkNewsletterSubscription(Varien_Event_Observer $observer)
+    {
+        $config = Mage::helper('ho_customer/config');
+
+        $event = $observer->getEvent();
+        /** @var Mage_Sales_Model_Order $order */
+        /** @noinspection PhpUndefinedMethodInspection */
+        $order = $event->getOrder();
+
+        $newsletter = Mage::app()->getFrontController()->getRequest()->getPost('newsletter');
+
+        if (!$order->getId()
+            || !$config->getNewsletterDiscountEnabled($order->getStore())
+            || !$newsletter) {
+            return;
+        }
+
+        Mage::getModel('ho_customer/newsletterDiscount')->sendDiscountEmail($order);
+    }
 }

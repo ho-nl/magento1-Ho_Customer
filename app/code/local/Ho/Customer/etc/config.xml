@@ -98,6 +98,11 @@
                     <file>ho_customer/complete_your_profile.html</file>
                     <type>html</type>
                 </ho_customer_complete_profile_email_template>
+                <ho_customer_newsletter_discount_email_template>
+                    <label>Newsletter Subscription Discount Email</label>
+                    <file>ho_customer/newsletter_subscription_discount.html</file>
+                    <type>html</type>
+                </ho_customer_newsletter_discount_email_template>
             </email>
         </template>
     </global>
@@ -119,6 +124,16 @@
                 </ho_customer>
             </updates>
         </layout>
+        <events>
+            <checkout_submit_all_after>
+                <observers>
+                    <ho_shopkoning>
+                        <class>ho_customer/observer</class>
+                        <method>checkNewsletterSubscription</method>
+                    </ho_shopkoning>
+                </observers>
+            </checkout_submit_all_after>
+        </events>
     </frontend>
 
     <default>
@@ -128,6 +143,10 @@
                 <email_sender>general</email_sender>
                 <email_template>ho_customer_complete_profile_email_template</email_template>
             </complete_profile>
+            <newsletter_discount>
+                <email_sender>general</email_sender>
+                <email_template>ho_customer_newsletter_discount_email_template</email_template>
+            </newsletter_discount>
         </ho_customer>
     </default>
 
