@@ -13,6 +13,7 @@ class Ho_Customer_Helper_Config extends Mage_Core_Helper_Abstract
 
     const XML_PATH_NEWSLETTER_DISCOUNT_ENABLED          = 'ho_customer/newsletter_discount/enabled';
     const XML_PATH_NEWSLETTER_DISCOUNT_PRICE_RULE       = 'ho_customer/newsletter_discount/price_rule';
+    const XML_PATH_NEWSLETTER_DISCOUNT_LIMIT_USAGE      = 'ho_customer/newsletter_discount/limit_usage';
     const XML_PATH_NEWSLETTER_DISCOUNT_EMAIL_TEMPLATE   = 'ho_customer/newsletter_discount/email_template';
     const XML_PATH_NEWSLETTER_DISCOUNT_EMAIL_SENDER     = 'ho_customer/newsletter_discount/email_sender';
 
@@ -95,6 +96,15 @@ class Ho_Customer_Helper_Config extends Mage_Core_Helper_Abstract
     public function getNewsletterDiscountPriceRule($store = null)
     {
         return Mage::getStoreConfig(self::XML_PATH_NEWSLETTER_DISCOUNT_PRICE_RULE, $store);
+    }
+
+    /**
+     * @param null|Mage_Core_Model_Store|int $store
+     * @return bool
+     */
+    public function getNewsletterDiscountLimitUsage($store = null)
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_NEWSLETTER_DISCOUNT_LIMIT_USAGE, $store);
     }
 
     /**

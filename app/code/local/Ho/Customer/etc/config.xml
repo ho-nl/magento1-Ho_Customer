@@ -144,6 +144,7 @@
                 <email_template>ho_customer_complete_profile_email_template</email_template>
             </complete_profile>
             <newsletter_discount>
+                <limit_usage>1</limit_usage>
                 <email_sender>general</email_sender>
                 <email_template>ho_customer_newsletter_discount_email_template</email_template>
             </newsletter_discount>

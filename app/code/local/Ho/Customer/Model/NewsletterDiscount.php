@@ -63,6 +63,10 @@ class Ho_Customer_Model_NewsletterDiscount
             'rule_id'           => $this->getConfig()->getNewsletterDiscountPriceRule(),
         ];
 
+        if ($this->getConfig()->getNewsletterDiscountLimitUsage()) {
+            $data['uses_per_coupon'] = 1;
+        }
+
         $generator->setData($data);
         $generator->generatePool();
 
