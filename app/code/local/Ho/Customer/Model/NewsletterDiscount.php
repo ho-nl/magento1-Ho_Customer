@@ -22,6 +22,20 @@
 class Ho_Customer_Model_NewsletterDiscount
 {
     /**
+     * Return discount amount
+     */
+    public function getDiscountAmount()
+    {
+        $rule = Mage::getModel('salesrule/rule')->load($this->getConfig()->getNewsletterDiscountPriceRule());
+
+        if ($rule->getId()) {
+            return $rule->getDiscountAmount();
+        }
+
+        return false;
+    }
+
+    /**
      * @param Mage_Sales_Model_Order $order
      */
     public function sendDiscountEmail(Mage_Sales_Model_Order $order)
