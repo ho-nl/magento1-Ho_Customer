@@ -81,6 +81,14 @@
                     </ho_customer_check_complete_order>
                 </observers>
             </sales_order_save_after>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <ho_customer_check_send_discountemail>
+                        <class>ho_customer/observer</class>
+                        <method>checkSendDiscountEmail</method>
+                    </ho_customer_check_send_discountemail>
+                </observers>
+            </checkout_onepage_controller_success_action>
             <controller_action_postdispatch_customer_account_editPost>
                 <observers>
                     <ho_customer_distribute_discount>

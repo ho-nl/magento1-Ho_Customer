@@ -288,6 +288,30 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
             return;
         }
 
-        Mage::getModel('ho_customer/newsletterDiscount')->sendDiscountEmail($order);
+        // Set session variable to trigger discount e-mail on order success later on
+        Mage::getSingleton('core/session')->setSendDiscountEmail(true);
+    }
+
+    /**
+     * Check if we should send out a newsletter discount e-mail for this order
+     * 
+     * @event checkout_onepage_controller_success_action
+     * @param Varien_Event_Observer $observer
+     */
+    public function checkSendDiscountEmail(Varien_Event_Observer $observer)
+    {
+        $orderIds = $observer->getEvent()->getOrderIds();
+
+        if (!count($orderIds)) {
+            return;
+        }
+
+        $order = Mage::getModel('sales/order')->load($orderIds[0]);
+        $session = Mage::getSingleton('core/session');
+
+        if ($session->getSendDiscountEmail()) {
+            Mage::getModel('ho_customer/newsletterDiscount')->sendDiscountEmail($order);
+            $session->setSendDiscountEmail(false);
+        }
     }
 }
