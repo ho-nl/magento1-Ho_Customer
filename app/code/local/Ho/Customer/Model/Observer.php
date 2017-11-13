@@ -77,11 +77,14 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
         $customer = Mage::getModel('customer/customer')
             ->setEmail($order->getCustomerEmail())
             ->setStoreId($order->getStoreId())
-            ->setPrefix($order->getCustomerPrefix())
-            ->setFirstname($order->getCustomerFirstname())
-            ->setLastname($order->getCustomerLastname());
+            ->setWebsiteId($order->getStore()->getWebsiteId())
+            ->setPrefix($order->getCustomerPrefix() ?: $order->getBillingAddress()->getPrefix())
+            ->setFirstname($order->getCustomerFirstname() ?: $order->getBillingAddress()->getFirstname())
+            ->setLastname($order->getCustomerLastname() ?: $order->getBillingAddress()->getLastname());
 
         $customer->save();
+
+        $billingAddress = $shippingAddress = null;
 
         // Create customer addresses
         foreach ($order->getAddressesCollection() as $orderAddress) {
@@ -106,16 +109,31 @@ class Ho_Customer_Model_Observer extends Mage_Core_Model_Abstract
                 ->setRegion($orderAddress->getRegion())
                 ->setRegionId($orderAddress->getRegionId());
 
+            // Save address
             $address->save();
 
-            // Save default billing and shipping
-            if ($orderAddress->getAddressType() == 'billing') {
-                $customer->setDefaultBilling($address->getEntityId());
+            if ($orderAddress->getAddressType() == Mage_Sales_Model_Order_Address::TYPE_BILLING) {
+                $billingAddress = $address;
             }
-            elseif ($orderAddress->getAddressType() == 'shipping') {
-                $customer->setDefaultShipping($address->getEntityId());
+            else {
+                $shippingAddress = $address;
             }
         }
+
+        // Complement billing address when order address wasn't complete
+        if (!$billingAddress->getCity()) {
+            $billingAddress->setStreet($shippingAddress->getStreetFull());
+            $billingAddress->setCity($shippingAddress->getCity());
+            $billingAddress->setPostcode($shippingAddress->getPostcode());
+            $billingAddress->setCountryId($shippingAddress->getCountryId());
+            $billingAddress->setRegion($shippingAddress->getRegion());
+            $billingAddress->setRegionId($shippingAddress->getRegionId());
+
+            $billingAddress->save();
+        }
+
+        $customer->setDefaultBilling($billingAddress->getEntityId());
+        $customer->setDefaultShipping($shippingAddress->getEntityId());
 
         // Force confirmation
         $customer->setConfirmation($customer->getRandomConfirmationKey());
