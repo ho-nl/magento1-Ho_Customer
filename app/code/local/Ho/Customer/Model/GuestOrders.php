@@ -5,7 +5,7 @@ class Ho_Customer_Model_GuestOrders extends Mage_Core_Model_Abstract
     /**
      * Create customers from orders, link guest orders to customers
      */
-    public function registerCustomers()
+    public function registerCustomers($startOrder = null)
     {
         $i = 0;
 
@@ -14,6 +14,10 @@ class Ho_Customer_Model_GuestOrders extends Mage_Core_Model_Abstract
             ->addFieldToFilter('customer_id', array('null' => true))
             ->addFieldToFilter('customer_email', array('notnull' => true))
             ->addFieldToFilter('customer_email', array('like' => '%@%'));
+
+        if (is_numeric($startOrder)) {
+            $guestOrders->addFieldToFilter('entity_id', [ 'gteq' => $startOrder ]);
+        }
 
         $guestOrders->getSelect()
             ->columns(array('increment_id', 'customer_email'))

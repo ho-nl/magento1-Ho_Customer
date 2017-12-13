@@ -5,3 +5,4 @@ app/design/frontend/base/default/template/ho/*      app/design/frontend/base/def
 app/locale/en_US/template/email/ho_customer         app/locale/en_US/template/email/ho_customer
 app/locale/nl_NL/Ho_Customer.csv                    app/locale/nl_NL/
 app/etc/modules/*                                   app/etc/modules/
+shell/*                                             shell/
