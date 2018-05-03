@@ -25,6 +25,11 @@
                     <customer>Ho_Customer_Helper_Customer_Customer</customer>
                 </rewrite>
             </enterprise_customer>
+            <sales>
+                <rewrite>
+                    <guest>Ho_Customer_Helper_Sales_Guest</guest>
+                </rewrite>
+            </sales>
         </helpers>
         <models>
             <ho_customer>
