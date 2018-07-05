@@ -33,6 +33,9 @@ class Ho_Customer_Helper_Sales_Guest extends Mage_Sales_Helper_Guest
         $cookieModel = Mage::getSingleton('core/cookie');
         $errorMessage = 'Entered data is incorrect. Please try again.';
 
+        // Wether or not we should require login for non-guest/shadow customers
+        $requireLogin = Mage::helper('ho_customer')->requireLogin();
+
         if (empty($post) && !$cookieModel->get($this->_cookieName)) {
             Mage::app()->getResponse()->setRedirect(Mage::getUrl('sales/guest/form'));
             return false;
@@ -66,14 +69,23 @@ class Ho_Customer_Helper_Sales_Guest extends Mage_Sales_Helper_Guest
                 $errors = true;
             }
 
-            // Check if order customer is guest (shadow customer)
+            // Check if order customer is a shadow customer created for guest
             $guestCustomer = false;
             if ($order->getCustomerId()) {
                 $customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
                 $guestCustomer = !$customer->getData('password_hash');
             }
 
-            if ($errors === false && (!is_null($order->getCustomerId()) && !$guestCustomer)) {
+            // If enabled, redirect non-guests to login first, else error as usual
+            if (!$guestCustomer && $requireLogin) {
+                Mage::getSingleton('core/session')->addNotice($this->__('Please log in to view your order details.'));
+
+                Mage::getSingleton('customer/session')->setAfterAuthUrl(
+                    Mage::getUrl('sales/order/view',array('order_id' => $order->getId()))
+                );
+                Mage::app()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
+                return false;
+            } else if ($errors === false && (!is_null($order->getCustomerId()) && (!$guestCustomer && $requireLogin))) {
                 $errorMessage = 'Please log in to view your order details.';
                 $errors = true;
             }
@@ -86,14 +98,13 @@ class Ho_Customer_Helper_Sales_Guest extends Mage_Sales_Helper_Guest
             $cookie = $cookieModel->get($this->_cookieName);
             $cookieOrder = $this->_loadOrderByCookie( $cookie );
             if (!is_null($cookieOrder)) {
-                // Check if order customer is guest (shadow customer)
+                // Check if order customer is guest (shadow customer), if so, bypass login message/redirect (unless login is required)
                 $guestCustomer = false;
                 if ($cookieOrder->getCustomerId()) {
                     $customer = Mage::getModel('customer/customer')->load($cookieOrder->getCustomerId());
                     $guestCustomer = !$customer->getData('password_hash');
                 }
-
-                if (is_null($cookieOrder->getCustomerId()) || $guestCustomer) {
+                if (is_null($cookieOrder->getCustomerId()) || ($guestCustomer && !$requireLogin)) {
                     $cookieModel->renew($this->_cookieName, $this->_lifeTime, '/');
                     $order = $cookieOrder;
                 } else {

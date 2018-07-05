@@ -151,6 +151,9 @@
 
     <default>
         <ho_customer>
+            <automatic>
+                <require_login>0</require_login>
+            </automatic>
             <complete_profile>
                 <days_after>30</days_after>
                 <email_sender>general</email_sender>
