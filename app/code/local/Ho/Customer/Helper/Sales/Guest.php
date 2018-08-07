@@ -80,7 +80,7 @@ class Ho_Customer_Helper_Sales_Guest extends Mage_Sales_Helper_Guest
             if (!$guestCustomer && $requireLogin) {
                 Mage::getSingleton('core/session')->addNotice($this->__('Please log in to view your order details.'));
 
-                Mage::getSingleton('customer/session')->setAfterAuthUrl(
+                Mage::getSingleton('customer/session')->setBeforeAuthUrl(
                     Mage::getUrl('sales/order/view',array('order_id' => $order->getId()))
                 );
                 Mage::app()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
@@ -98,13 +98,13 @@ class Ho_Customer_Helper_Sales_Guest extends Mage_Sales_Helper_Guest
             $cookie = $cookieModel->get($this->_cookieName);
             $cookieOrder = $this->_loadOrderByCookie( $cookie );
             if (!is_null($cookieOrder)) {
-                // Check if order customer is guest (shadow customer), if so, bypass login message/redirect (unless login is required)
+                // Check if order customer is guest (shadow customer) and renew cookie if so
                 $guestCustomer = false;
                 if ($cookieOrder->getCustomerId()) {
                     $customer = Mage::getModel('customer/customer')->load($cookieOrder->getCustomerId());
                     $guestCustomer = !$customer->getData('password_hash');
                 }
-                if (is_null($cookieOrder->getCustomerId()) || ($guestCustomer && !$requireLogin)) {
+                if (is_null($cookieOrder->getCustomerId()) || $guestCustomer) {
                     $cookieModel->renew($this->_cookieName, $this->_lifeTime, '/');
                     $order = $cookieOrder;
                 } else {
